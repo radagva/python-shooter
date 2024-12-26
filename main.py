@@ -94,6 +94,12 @@ while running:
                 bullets.remove(bullet)
 
         show_score(in_surface=surface)
+    else:
+        surface.fill(BLACK)
+
+        font = pygame.font.Font(None, 48)
+        text = font.render("PAUSED", True, WHITE)
+        surface.blit(text, text.get_rect(center=surface.get_rect().center))
 
     pygame.display.update()
 

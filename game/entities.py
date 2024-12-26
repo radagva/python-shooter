@@ -19,6 +19,7 @@ class Ship:
         self.width = width
         self.height = height
         self.color = color
+        self.speed = 6
 
     def draw(self):
         pygame.draw.rect(
@@ -31,13 +32,12 @@ class Ship:
         has_D_pressed = pressed_keys[pygame.K_d]
 
         next_place = self.x
-        places = 5
 
         if has_A_pressed:
-            next_place -= places
+            next_place -= self.speed
 
         if has_D_pressed:
-            next_place += places
+            next_place += self.speed
 
         if has_A_pressed and has_D_pressed:
             return
@@ -54,7 +54,7 @@ class Ship:
             x=self.x + self.width // 2,
             y=self.y - self.height // 2,
             width=5,
-            height=5,
+            height=15,
             color=RED,
         )
 
