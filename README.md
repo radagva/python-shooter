@@ -14,6 +14,7 @@ Just run `uv run main.py`
 - [ ] there are different kinds of enemies.
 - [ ] there are several bosses.
 - [ ] there are stages.
+- [x] show score.
 - [ ] there is a personal score.
 - [ ] save game.
 - [ ] max score.

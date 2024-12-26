@@ -122,7 +122,7 @@ class Enemy:
             self.surface, self.color, (self.x, self.y, self.width, self.height)
         )
 
-        fontTitle = pygame.font.SysFont("arial", 14)
+        fontTitle = pygame.font.SysFont(None, 22)
         textTitle = fontTitle.render(f"{self.life}", True, WHITE)
         rectTitle = textTitle.get_rect(center=rect.center)
 

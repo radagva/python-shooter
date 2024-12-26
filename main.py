@@ -17,7 +17,7 @@ running = True
 
 player = Ship(
     surface=surface,
-    x=int((WINDOW_X / 2) - 20),
+    x=(WINDOW_X // 2) - 20,
     y=(WINDOW_Y - 20),
     width=20,
     height=20,
@@ -28,6 +28,7 @@ enemytime = time()
 
 bullets: list[Bullet] = []
 enemies: list[Enemy] = []
+score = 0
 
 
 def create_enemy_if_possible():
@@ -44,6 +45,12 @@ def create_enemy_if_possible():
         enemytime = time() + randint(1, 2)
 
 
+def show_score(in_surface: pygame.Surface):
+    font = pygame.font.Font(None, 36)
+    text = font.render(f"Score: {score}", True, WHITE)
+    in_surface.blit(text, (10, 10))
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,33 +60,40 @@ while running:
             if event.key == pygame.K_SPACE:
                 bullets.append(player.shoot())
 
-    create_enemy_if_possible()
+            if event.key == pygame.K_p:
+                paused = not paused
 
-    player.setup_movement()
+    if not paused:
+        surface.fill(BLACK)
 
-    surface.fill(BLACK)
+        player.setup_movement()
 
-    player.draw()
+        player.draw()
 
-    for enemy in enemies:
-        enemy.draw()
-
-        if enemy.did_exit_window_bounds():
-            enemy.reappear()
-
-    for bullet in bullets:
-        bullet.draw()
+        create_enemy_if_possible()
 
         for enemy in enemies:
-            if bullet.did_shot_enemy(enemy):
-                enemy.life -= 1
+            enemy.draw()
+
+            if enemy.did_exit_window_bounds():
+                enemy.reappear()
+
+        for bullet in bullets:
+            bullet.draw()
+
+            for enemy in enemies:
+                if bullet.did_shot_enemy(enemy):
+                    enemy.life -= 1
+                    bullets.remove(bullet)
+
+                    if enemy.life == 0:
+                        score += 1
+                        enemies.remove(enemy)
+
+            if bullet.did_exit_window_bounds():
                 bullets.remove(bullet)
 
-                if enemy.life == 0:
-                    enemies.remove(enemy)
-
-        if bullet.did_exit_window_bounds():
-            bullets.remove(bullet)
+        show_score(in_surface=surface)
 
     pygame.display.update()
 
